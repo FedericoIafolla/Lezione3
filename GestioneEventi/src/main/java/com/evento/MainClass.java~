@@ -1,0 +1,42 @@
+package com.evento;
+
+import java.util.Date;
+
+public class Main {
+    public static void main(String[] args) {
+        // Inizializzazione dei DAO
+        PersonaDAO personaDAO = new PersonaDAO();
+        LocationDAO locationDAO = new LocationDAO();
+        EventoDAO eventoDAO = new EventoDAO();
+        PartecipazioneDAO partecipazioneDAO = new PartecipazioneDAO();
+
+        // Salva una persona
+        Persona persona = new Persona("Marco", "Rossi", "marco@example.com", "1990-01-01", 'M');
+        personaDAO.save(persona);
+        System.out.println("Persona salvata: " + persona.getNome() + " " + persona.getCognome());
+
+        // Salva una location
+        Location location = new Location("Teatro", "Milano");
+        locationDAO.save(location);
+        System.out.println("Location salvata: " + location.getNome() + ", " + location.getCitta());
+
+        // Salva un evento
+        Evento evento = new Evento("Concerto", new Date(), "Concerto di musica dal vivo", TipoEvento.PUBBLICO, 100);
+        evento.setLocation(location);
+        eventoDAO.save(evento);
+        System.out.println("Evento salvato: " + evento.getTitolo());
+
+        // Associa la persona all'evento
+        Partecipazione partecipazione = new Partecipazione(persona, evento, Stato.CONFERMATA);
+        partecipazioneDAO.save(partecipazione);
+        System.out.println("Partecipazione salvata: " + persona.getNome() + " partecipa a " + evento.getTitolo());
+
+        // Esempio di recupero della persona salvata
+        Persona retrievedPersona = personaDAO.findById(persona.getId());
+        System.out.println("Persona recuperata: " + retrievedPersona.getNome() + " " + retrievedPersona.getCognome());
+
+        // Esempio di cancellazione della partecipazione
+        partecipazioneDAO.delete(partecipazione);
+        System.out.println("Partecipazione cancellata per: " + persona.getNome());
+    }
+}

@@ -2,6 +2,7 @@ package com.evento;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "eventi")
@@ -22,6 +23,9 @@ public class Evento {
     private TipoEvento tipoEvento;
 
     private int numeroMassimoPartecipanti;
+
+    @OneToMany(mappedBy = "evento")
+    private List<Partecipazione> partecipazioni;
 
     public Evento() {
     }
@@ -82,6 +86,14 @@ public class Evento {
 
     public void setNumeroMassimoPartecipanti(int numeroMassimoPartecipanti) {
         this.numeroMassimoPartecipanti = numeroMassimoPartecipanti;
+    }
+
+    public List<Partecipazione> getPartecipazioni() {
+        return partecipazioni;
+    }
+
+    public void setPartecipazioni(List<Partecipazione> partecipazioni) {
+        this.partecipazioni = partecipazioni;
     }
 }
 
